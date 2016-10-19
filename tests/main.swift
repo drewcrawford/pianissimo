@@ -14,5 +14,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import DynamicRuntime
-precondition(DynamicRuntime.legalTexts == ["DynamicRuntime\n© 2016 Drew Crawford.\nhttps://code.sealedabstract.com/drewcrawford/DynamicRuntime"])
+import pianissimo
+precondition(pianissimo.legalTexts == ["DynamicRuntime\n© 2016 Drew Crawford.\nhttps://code.sealedabstract.com/drewcrawford/DynamicRuntime"])

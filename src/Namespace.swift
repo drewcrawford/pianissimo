@@ -15,4 +15,4 @@ limitations under the License.
 */
 
 ///Namespace type
-public enum DynamicRuntime { }
+public enum pianissimo { }

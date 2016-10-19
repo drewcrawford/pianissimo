@@ -17,9 +17,9 @@ limitations under the License.
 import Dispatch
 
 private var _registeredTypes: [String: Any.Type] = [:]
-private let queue = DispatchQueue(label: "DynamicRuntime.Lock")
+private let queue = DispatchQueue(label: "pianissimo.Lock")
 
-extension DynamicRuntime {
+extension pianissimo {
 
     private static func typeName(of: Any.Type) -> String {
       return _typeName(of, qualified: true)

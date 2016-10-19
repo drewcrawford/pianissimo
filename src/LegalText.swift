@@ -23,19 +23,19 @@ internal final class LegalTextWriter: StaticCallable {
     static var selectors: [Selector] { return [Selectors.legalText] }
     static func _call(_ selector: Selector, input: Any?) -> Any? {
         if selector == Selectors.legalText {
-            return "DynamicRuntime\n© 2016 Drew Crawford.\nhttps://code.sealedabstract.com/drewcrawford/DynamicRuntime"
+            return "pianissimo\n© 2016 Drew Crawford.\nhttps://code.sealedabstract.com/drewcrawford/pianissimo"
         }
         return nil
     }
 }
 
 private func _setupOnce() {
-    DynamicRuntime._register(LegalTextWriter.self)
+    pianissimo._register(LegalTextWriter.self)
 }
 
 let setupOnce: Void = _setupOnce()
 
-extension DynamicRuntime {
+extension pianissimo {
     public static var legalTexts: [String] {
         return typesRespondingTo(staticSelector: Selectors.legalText).map{$0.call(Selectors.legalText, input: nil) as String?}.flatMap{$0}
     }

@@ -27,7 +27,7 @@ public protocol StaticCallable {
     static func _call(_ selector: Selector, input: Any?) -> Any?
 }
 
-public struct StringSelector: Selector, ExpressibleByStringLiteral {
+public struct PianissimoStringSelector: Selector, ExpressibleByStringLiteral {
     let string: String
     public init(stringLiteral value: StaticString) {
         self.string = String(describing: value)

@@ -15,28 +15,28 @@
 ;; The build file for all of the targets of the Anarchy Tools build tool.
 
 (package
-  :name "DynamicRuntime"
+  :name "pianissimo"
   :version "0.1"
   :tasks {
     :default {
       :tool "atllbuild"
       :sources ["src/**.swift"]
-      :name "DynamicRuntime"
+      :name "pianissimo"
       :output-type "static-library"
       :publish-product true
     }
     :check-build {
       :tool "atllbuild"
       :sources ["tests/main.swift"]
-      :name  "DynamicRuntimeCheck"
+      :name  "pianissimoCheck"
       :output-type "executable"
-      :link-with-product ["DynamicRuntime.a"]
+      :link-with-product ["pianissimo.a"]
       :dependencies ["default"]
       :publish-product true
     }
     :check {
       :tool "shell"
-      :script "bin/DynamicRuntimeCheck"
+      :script "bin/pianissimoCheck"
       :dependencies ["check-build"]
     }
   }
