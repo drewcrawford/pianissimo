@@ -1,0 +1,22 @@
+stages:
+    - test
+
+osx:
+    stage: test
+    script:
+      - atbuild check
+
+    tags:
+      - xcode8
+      - atbuild
+
+linux:
+    stage: test
+    script:
+        - apt-get update
+        - apt-get install atbuild -y
+        - atbuild check
+
+    tags:
+        - linux-autoscale
+    image: drewcrawford/buildbase:latest
