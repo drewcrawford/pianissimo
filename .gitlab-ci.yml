@@ -18,5 +18,5 @@ linux:
         - atbuild check
 
     tags:
-        - linux-autoscale
+        - autoscale-linux
     image: drewcrawford/buildbase:latest
