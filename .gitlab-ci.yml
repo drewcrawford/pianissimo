@@ -1,5 +1,6 @@
 stages:
     - test
+    - deploy
 
 osx:
     stage: test
@@ -34,3 +35,18 @@ docs:
       - docs/_build/html
 
   image: drewcrawford/anarchy-sphinx:latest
+
+deploydocs:
+  stage: deploy
+  image: python:latest
+  dependencies:
+    - documentation
+  script:
+  - pip install awscli
+  - aws s3 cp docs/_build/html/ s3://$DOC_BUCKET_NAME/ --recursive --acl "public-read"
+
+  when: manual
+  variables:
+    DOC_BUCKET_NAME: "pianissimo-docs.sealedabstract.com"
+  tags:
+    - autoscale-linux
