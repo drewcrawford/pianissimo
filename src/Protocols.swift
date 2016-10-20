@@ -14,20 +14,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-///Typically, this is an enum with a string raw value
+///A selector.  Typically, this is an enum with a raw string value.
+///- note: Although they're not strongly typed, you can use the syntax `"foo" as StringSelector` to produce a selector for any string
 public protocol Selector {
     var rawValue: String { get }
 }
 
-func == (lhs: Selector, rhs: Selector) -> Bool { return lhs.rawValue == rhs.rawValue }
+public func == (lhs: Selector, rhs: Selector) -> Bool { return lhs.rawValue == rhs.rawValue }
 
 ///conform to this protocol to allow callers to send you messages
-public protocol StaticCallable {
-    static var selectors: [Selector] { get }
-    static func _call(_ selector: Selector, input: Any?) -> Any?
+public protocol Callable {
+    ///All selectors the instance responds to
+    var selectors: [Selector] { get }
+    ///Implement this to respond to selectors
+    func _call(_ selector: Selector, input: Any?) throws -> Any?
 }
 
-public struct PianissimoStringSelector: Selector, ExpressibleByStringLiteral {
+public struct StringSelector: Selector, ExpressibleByStringLiteral {
     let string: String
     public init(stringLiteral value: StaticString) {
         self.string = String(describing: value)
@@ -41,9 +44,9 @@ public struct PianissimoStringSelector: Selector, ExpressibleByStringLiteral {
     public var rawValue : String { return string }
 }
 
-extension StaticCallable {
+extension Callable {
 
-    public static func call<Output>(_ selector: Selector, input: Any?) -> Output? {
-        return self._call(selector, input: input) as? Output
+    public func call<Output>(_ selector: Selector, input: Any?) throws -> Output? {
+        return try self._call(selector, input: input) as? Output
     }
 }

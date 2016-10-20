@@ -1,0 +1,37 @@
+/* globals */
+
+dd {
+    margin-left: 30px;
+}
+
+.navbar-brand img {
+    width: 24px;
+    height: 24px;
+    display: inline;
+}
+
+code {
+    color: #29abe0;
+}
+
+code.descclassname {
+    color: #29abe0;
+}
+
+/* project styling */
+
+.navbar-default .navbar-text {
+    color: #000000;
+}
+
+#navbar {
+    background-color: #eeeeee;
+}
+
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-brand:hover {
+    color: #333333;
+}
+
+.navbar-default .navbar-brand {
+    color: #000000;
+}

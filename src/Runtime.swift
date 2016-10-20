@@ -16,37 +16,37 @@ limitations under the License.
 
 import Dispatch
 
-private var _registeredTypes: [String: Any.Type] = [:]
+private var _registeredValues: [String: Any] = [:]
 private let queue = DispatchQueue(label: "pianissimo.Lock")
 
 extension pianissimo {
 
-    private static func typeName(of: Any.Type) -> String {
-      return _typeName(of, qualified: true)
-    }
-
-    internal static func _register(_ type: Any.Type) {
+    internal static func _register(_ type: Any, name: String) {
       queue.sync {
-        _registeredTypes[typeName(of: type)] = type
-        print("registering type \(typeName(of: type))")
+        _registeredValues[name] = type
       }
     }
 
-    public static func register(_ type: Any.Type) {
+    ///Register an instance with the dynamic runtime
+    ///- parameter name: A name that uniquely identifies this instance.  It is recommended to namespace names to avoid collisions.
+    ///
+    ///
+    public static func register(_ type: Any, name: String) {
       let _ = setupOnce
-      _register(type)
+      _register(type, name: name)
     }
 
-    public static var registeredTypes: [String: Any.Type] {
+    ///All types registered with the dynamic runtime, keyed by name
+    public static var registeredTypes: [String: Any] {
       let _ = setupOnce
-      var t: [String:Any.Type]! = [:]
+      var t: [String:Any]! = [:]
       queue.sync {
-        t = _registeredTypes
+        t = _registeredValues
       }
       return t
     }
 
-    public static func typesRespondingTo(staticSelector: Selector) -> [StaticCallable.Type] {
-      return registeredTypes.values.flatMap{$0 as? StaticCallable.Type}.filter{$0.selectors.filter{$0 == staticSelector}.count > 0}
+    public static func types(respondingTo selector: Selector) -> [Callable] {
+      return _registeredValues.values.flatMap{$0 as? Callable}.filter{$0.selectors.filter{$0 == selector}.count > 0}
     }
 }

@@ -18,25 +18,33 @@ private enum Selectors: String, Selector {
     case legalText = "legalText"
 }
 
-internal final class LegalTextWriter: StaticCallable {
-
-    static var selectors: [Selector] { return [Selectors.legalText] }
-    static func _call(_ selector: Selector, input: Any?) -> Any? {
+private struct LegalTextWriter: Callable {
+    let text: String
+    var selectors: [Selector] { return [Selectors.legalText] }
+    func _call(_ selector: Selector, input: Any?) -> Any? {
         if selector == Selectors.legalText {
-            return "pianissimo\n© 2016 Drew Crawford.\nhttps://code.sealedabstract.com/drewcrawford/pianissimo"
+            return text
         }
         return nil
     }
 }
 
+
 private func _setupOnce() {
-    pianissimo._register(LegalTextWriter.self)
+    pianissimo._register(LegalTextWriter(text: "pianissimo\n© 2016 Drew Crawford.\nhttps://code.sealedabstract.com/drewcrawford/pianissimo"), name: "pianissimo.LegalText")
 }
 
 let setupOnce: Void = _setupOnce()
 
 extension pianissimo {
+    ///Register the legal text
+    ///- parameter name: A unique, namespaced name.  This will be used as a key for `registeredTypes`
+    public static func register(legalText: String, name:String) {
+        register(LegalTextWriter(text: legalText), name: name)
+    }
+    ///All legal texts registered with the system
     public static var legalTexts: [String] {
-        return typesRespondingTo(staticSelector: Selectors.legalText).map{$0.call(Selectors.legalText, input: nil) as String?}.flatMap{$0}
+        let _ = setupOnce
+        return types(respondingTo: Selectors.legalText).map{try? $0.call(Selectors.legalText, input: nil) as String?}.flatMap{$0}.flatMap{$0}
     }
 }

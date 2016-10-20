@@ -15,4 +15,22 @@ limitations under the License.
 */
 
 import pianissimo
-precondition(pianissimo.legalTexts == ["DynamicRuntime\n© 2016 Drew Crawford.\nhttps://code.sealedabstract.com/drewcrawford/DynamicRuntime"])
+print(pianissimo.legalTexts)
+precondition(pianissimo.legalTexts == ["pianissimo\n© 2016 Drew Crawford.\nhttps://code.sealedabstract.com/drewcrawford/pianissimo"])
+    
+//this sample taken from dispatch.rst
+
+private enum Selectors : String, Selector {
+    case foo = "foo"
+}
+private struct MyInstance: Callable {
+    var selectors: [Selector] { return [Selectors.foo] }
+    func _call(_ selector: Selector, input: Any?) -> Any? {
+        if selector == Selectors.foo {
+            return 23
+        }
+        return nil
+    }
+}
+
+let a: Int? = try! MyInstance().call("foo" as StringSelector, input: nil)
